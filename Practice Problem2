@@ -1,0 +1,88 @@
+#include <iostream>
+using namespace std;
+
+//Prototypes 
+void getValue(int&);
+int linearSearch(int[], int, int, int&);
+int binarySearch(int[], int, int, int&);
+
+int main() {
+  //Created Array of Integers
+  const int SIZE = 15;
+	int Array[SIZE] = { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 15, 16, 17, 29, 30};
+
+  int LinBMark = 0,
+		BinBMark = 0,
+		value,
+		LinResults,
+		BinResults;
+//Call on functions
+getValue(value);
+LinResults = linearSearch(Array, SIZE, value, LinBMark);
+BinResults = binarySearch(Array, SIZE, value, BinBMark);
+
+	cout << "Number of comparisons: " << value << endl;
+	cout << "The Linear Search: " << LinBMark << endl;
+	cout << "The Binary Search: " << BinBMark << endl;
+
+	return 0;
+} 
+
+
+//Definition
+
+//Define getValue
+void getValue(int &value)
+{
+	cout << "Enter the value to search for: ";
+	cin  >> value;
+  }
+
+// Define Linear Search
+int linearSearch(int list[], int size, int value, int &LinBMark)
+{
+	int index = 0;			// Used as a subscript 
+	int position = -1;		// Used to record the position 
+	bool found = false;     // Flag to show if the value was found
+
+	while(index < size && !found)
+	{
+		if (list[index] == value)	// If the value is found
+		{
+			found = true;			
+			position = index;	
+		}
+		index++;
+
+		if (position == -1)
+			LinBMark++;
+	}
+	return position;				// Return the position
+}
+
+//Define Binary Search 
+int binarySearch(int array[], int size, int value, int &BinBMark)
+{
+	int first = 0,							// First array element
+		last = size - 1,					// Last array element
+		middle,							      // Middle
+		position = -1;						// Position 
+	bool found = false;						// Flag
+
+	while (!found && first <= last)
+	{
+		middle = (first + last) / 2;		// Formula for midpoint
+		if (array[middle] == value)			// If value is found
+		{
+			found = true;
+			position = middle;
+		}
+		else if (array[middle] > value)		// If value is in the lower half
+			last = middle - 1;
+		else
+			first = middle + 1;				// If value is in the upper half
+		if (position == -1)
+			BinBMark++;
+	}
+	return position;
+}
